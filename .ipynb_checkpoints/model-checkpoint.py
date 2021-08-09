@@ -14,9 +14,9 @@ from heapq import nlargest
 
 
 #TRAINING DATA
-with open(r'C:\Users\n1555085\Downloads\Project\positiveComments.txt', 'r') as f:
+with open(r'positiveComments.txt', 'r') as f:
     posReviews = f.readlines()
-with open(r'C:\Users\n1555085\Downloads\Project\negativeComments.txt', 'r') as f:
+with open(r'negativeComments.txt', 'r') as f:
     negReviews = f.readlines()
 
 sw = set(stopwords.words('english') + list(punctuation))

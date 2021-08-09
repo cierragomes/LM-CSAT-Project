@@ -14,9 +14,9 @@ from heapq import nlargest
 
 
 #TRAINING DATA
-with open(r'C:\Users\n1555085\Downloads\Project\positiveComments.txt', 'r') as f:
+with open(r'positiveComments.txt', 'r') as f:
     posReviews = f.readlines()
-with open(r'C:\Users\n1555085\Downloads\Project\negativeComments.txt', 'r') as f:
+with open(r'negativeComments.txt', 'r') as f:
     negReviews = f.readlines()
 
 sw = set(stopwords.words('english') + list(punctuation))
@@ -100,57 +100,3 @@ def customWordFrequencies(commentList, customWords):
 
 
 
-
-'''
-Unsupervised Learning NOTES
-
-Hierarchical - https://stackabuse.com/hierarchical-clustering-with-python-and-scikit-learn (scikit learn)
-import matplotlib.pyplot as plt
-import pandas as pd
-%matplotlib inline
-import numpy as np
-from sklearn.cluster import AgglomerativeClustering
-
-
-KMeans
-
-
-Principle Components Analysis - https://towardsdatascience.com/pca-using-python-scikit-learn-e653f8989e60
-keeps principle components, throws away the rest.
-could use for training data or model output
-
-
-Association - https://www.kaggle.com/sangwookchn/association-rule-learning-with-scikit-learn
-
-
-
-KNN - https://www.analyticsvidhya.com/blog/2018/03/introduction-k-neighbours-algorithm-clustering/ 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
