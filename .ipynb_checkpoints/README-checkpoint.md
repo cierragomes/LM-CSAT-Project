@@ -16,7 +16,7 @@ Initial Setup:
  - download anaconda 3 from LAP
  - download nltk libraries
  - install wordcloud on the anaconda command prompt
- - download xlsx file of survey data and copy path
+ - download xlsx file of survey data, replace spaces with _, and copy path
  
 In order to run the program, you will need to:
  - navigate to run.ipynb

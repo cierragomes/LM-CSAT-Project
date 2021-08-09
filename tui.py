@@ -28,6 +28,7 @@ def run():
         print(f'# of understanding comments: {len(understanding)}')
         print(f'# of nps comments: {len(nps)}')
         print(f'# of comments: {len(comments)}')
+        print(f'{round(100*len(nps)/sheet.shape[0], 2)}% response rate')
         RunScope.rawComments = comments
     
     def clsfy(comments):
@@ -74,7 +75,7 @@ def run():
         #toPrint += "\n    kwp - find keywords of positive-labeled comments"
         #toPrint += "\n    kwn - find keywords of negative-labeled comments"
         toPrint += "\n    help - print this help menu"
-        toPrint += "\n    about - print detailed description of this program and capabilities"
+        #toPrint += "\n    about - print detailed description of this program and capabilities"
         toPrint += "\n    quit - quit program"
         print(toPrint)
     

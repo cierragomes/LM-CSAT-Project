@@ -11,7 +11,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.probability import FreqDist
 from collections import defaultdict
 from heapq import nlargest
-
+import matplotlib.pyplot as plt
 
 #TRAINING DATA
 with open(r'positiveComments.txt', 'r') as f:
@@ -19,16 +19,21 @@ with open(r'positiveComments.txt', 'r') as f:
 with open(r'negativeComments.txt', 'r') as f:
     negReviews = f.readlines()
 
-sw = set(stopwords.words('english') + list(punctuation))
-notStopwords = ['not', 'no', '!', 'but', 'too', 'have', 'had']
-
+def removePunctuation(review):
+    return review.translate(str.maketrans('', '', punctuation))
 def removeStopwords(review):
-    #review.translate(None, string.punctuation)
-    return ' '.join([word for word in review.split() if word.lower() not in sw or word.lower() in notStopwords])
-posReviews = list(filter(lambda s: s , list(map(removeStopwords, posReviews))))
-negReviews = list(filter(lambda s: s , list(map(removeStopwords, negReviews))))
-posWords = [word.lower() for review in posReviews for word in review.split()]
-negWords = [word.lower() for review in negReviews for word in review.split()]
+    sw = set(stopwords.words('english')) #sw.union(['trouble', 'having'])
+    notSW = ['not', 'no', '!', 'but', 'too', 'have', 'had']
+    return ' '.join([word for word in review.split() if word.lower() not in sw or word.lower() in notSW])
+def normalize(review):
+    return removeStopwords(removePunctuation(review)).lower()
+def normalizeReviews(reviews):
+    return list(map(normalize, reviews))
+
+posReviews = normalizeReviews(posReviews)
+negReviews = normalizeReviews(negReviews)
+posWords = [word for review in posReviews for word in review.split()]
+negWords = [word for review in negReviews for word in review.split()]
 vocabulary = list(set(posWords + negWords))
 
 
@@ -73,18 +78,25 @@ def printLabels(labelledComments, lenp, lenn):
     print(f'{lenp} positive-labeled comments, {lenn} negative-labeled comments\n\n')
     for lc in labelledComments:
         print(lc[1][0].upper(), round(lc[1][1], 3), ':', f'\"{lc[0]}\"', '\n')
-        
+    fig1, ax1 = plt.subplots()
+    ax1.pie([lenp, lenn], explode=(0,0), labels=['Positive', 'Negative'], autopct='%1.1f%%',
+    shadow=True, startangle=90)
+    ax1.axis('equal') # Equal aspect ratio ensures that pie is drawn as a circle.
+    plt.show()
 
 #WORDCLOUD STUFF
 cloudStopwords = set(stopwords.words('english') + list(punctuation))
 ignore = ['resolve', 'resolved', 'resolution', 'issue', 'problem', 'solve', 'ticket', 'request']
+ignore += ['issues', 'response', 'solved', 'could', 'didnt']
+ignore += ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+ignore += ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 cloudStopwords = cloudStopwords.union(set(ignore))
 
 #calculates word frequencies for generating wordcloud
 #parameter should be list of comments, returns dictionary
 def wordFrequencies(commentList):
     dictionary = {}
-    words = ' '.join(commentList).lower().split()
+    words = ' '.join(normalizeReviews(commentList)).lower().split()
     for w in words:
         if w not in dictionary and w not in cloudStopwords:
             dictionary[w] = words.count(w)
